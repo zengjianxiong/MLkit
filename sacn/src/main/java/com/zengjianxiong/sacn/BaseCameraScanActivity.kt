@@ -63,7 +63,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
     /**
      * 是否需要支持触摸缩放
      */
-    private var isNeedTouchZoom = true
+    open var isNeedTouchZoom = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -400,21 +400,21 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
      *
      * @return 默认返回true
      */
-    var isContentView: Boolean = true
+    open var isContentView: Boolean = true
 
     /**
      * 布局ID；通过覆写此方法可以自定义布局
      *
      * @return
      */
-    var layoutId: Int = R.layout.ml_camera_scan
+    open var layoutId: Int = R.layout.ml_camera_scan
 
     /**
      * 预览界面[.previewView]的ID
      *
      * @return
      */
-    var previewViewId: Int = R.id.previewView
+    open var previewViewId: Int = R.id.previewView
 
     /**
      * 自定义分辨率
