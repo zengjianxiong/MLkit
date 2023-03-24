@@ -1,18 +1,3 @@
-/*
- * Copyright (C) Jenly, MLKit Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.zengjianxiong.sacn.manager;
 
 import android.content.Context;
@@ -29,7 +14,7 @@ import com.zengjianxiong.sacn.utils.LogUtils;
 import java.io.Closeable;
 
 /**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
+ *
  */
 public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
 
@@ -47,11 +32,11 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
         updatePrefs();
     }
 
-    public void setVibrate(boolean vibrate){
+    public void setVibrate(boolean vibrate) {
         this.vibrate = vibrate;
     }
 
-    public void setPlayBeep(boolean playBeep){
+    public void setPlayBeep(boolean playBeep) {
         this.playBeep = playBeep;
     }
 
@@ -59,8 +44,8 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
         if (mediaPlayer == null) {
             mediaPlayer = buildMediaPlayer(context);
         }
-        if(vibrator == null){
-            vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator == null) {
+            vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         }
     }
 
@@ -102,12 +87,12 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
 
     @Override
     public synchronized void close() {
-        try{
+        try {
             if (mediaPlayer != null) {
                 mediaPlayer.release();
                 mediaPlayer = null;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             LogUtils.e(e);
         }
     }

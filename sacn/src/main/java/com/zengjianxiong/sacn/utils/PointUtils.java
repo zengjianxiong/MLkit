@@ -4,9 +4,6 @@ import android.graphics.Point;
 
 import java.util.Locale;
 
-/**
- * @author <a href="mailto:jenly1314@gmail.com">Jenly</a>
- */
 public final class PointUtils {
 
     private PointUtils() {
