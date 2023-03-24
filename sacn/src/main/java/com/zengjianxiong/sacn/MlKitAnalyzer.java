@@ -96,7 +96,7 @@ public class MlKitAnalyzer implements ImageAnalysis.Analyzer {
     /**
      * 自定义size
      */
-    private Size customSize;
+    private Size targetResolution;
 
     @NonNull
     private final List<Detector<?>> mDetectors;
@@ -274,8 +274,8 @@ public class MlKitAnalyzer implements ImageAnalysis.Analyzer {
      */
     @NonNull
     private Size getTargetResolution(int detectorType) {
-        if (customSize != null) {
-            return customSize;
+        if (targetResolution != null) {
+            return targetResolution;
         }
         switch (detectorType) {
             case TYPE_BARCODE_SCANNING:
@@ -288,8 +288,8 @@ public class MlKitAnalyzer implements ImageAnalysis.Analyzer {
 
 
     @NonNull
-    public void setCustomSize(@Nullable Size size) {
-        customSize = size;
+    public void setTargetResolution(@Nullable Size size) {
+        targetResolution = size;
     }
 
     /**

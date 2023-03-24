@@ -12,10 +12,6 @@ import com.google.mlkit.vision.interfaces.Detector
 
 class ScanActivity : BaseCameraScanActivity<List<Barcode>>() {
     private lateinit var barcodeScanner: BarcodeScanner
-    override fun targetResolution(): Size? {
-        return null
-    }
-
     override fun initConfig() {
         setPlayBeep(true)
         setVibrate(true)

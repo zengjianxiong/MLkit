@@ -391,7 +391,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
                 setScanResultCallback(result)
             }
         }
-        (analyzer as MlKitAnalyzer).setCustomSize(targetResolution())
+        (analyzer as MlKitAnalyzer).setTargetResolution(targetResolution())
     }
 
 
@@ -420,7 +420,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
      * 自定义分辨率
      * @return Size?
      */
-    abstract fun targetResolution(): Size?
+    open fun targetResolution(): Size? = null
 
     /**
      * 配置操作
