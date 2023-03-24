@@ -68,8 +68,8 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (isContentView) {
-            setContentView(layoutId)
+        if (isContentView()) {
+            setContentView(layoutId())
         }
         initUI()
     }
@@ -96,7 +96,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
      * 初始化
      */
     private fun initUI() {
-        previewView = findViewById(previewViewId)
+        previewView = findViewById(previewViewId())
         beepManager = BeepManager(this)
         ambientLightManager = AmbientLightManager(this)
 
@@ -400,21 +400,21 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
      *
      * @return 默认返回true
      */
-    open var isContentView: Boolean = true
+    open fun isContentView(): Boolean = true
 
     /**
      * 布局ID；通过覆写此方法可以自定义布局
      *
      * @return
      */
-    open var layoutId: Int = R.layout.ml_camera_scan
+    open fun layoutId(): Int = R.layout.ml_camera_scan
 
     /**
      * 预览界面[.previewView]的ID
      *
      * @return
      */
-    open var previewViewId: Int = R.id.previewView
+    open fun previewViewId(): Int = R.id.previewView
 
     /**
      * 自定义分辨率
