@@ -280,7 +280,7 @@ public class MlKitAnalyzer implements ImageAnalysis.Analyzer {
         switch (detectorType) {
             case TYPE_BARCODE_SCANNING:
             case TYPE_TEXT_RECOGNITION:
-                return new Size(1080, 720);
+                return new Size(1280, 720);
             default:
                 return DEFAULT_SIZE;
         }
