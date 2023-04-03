@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -40,6 +41,8 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
     private var mDownY = 0f
 
     private var analyzer: ImageAnalysis.Analyzer? = null
+
+    private var analyzerEnable: Boolean = true
 
     private val cameraController by lazy { LifecycleCameraController(baseContext) }
 
@@ -82,6 +85,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
      * @param analyze Boolean
      */
     open fun setAnalyzeImage(b: Boolean) {
+        analyzerEnable = b
         if (!b) {
             previewView.controller?.clearImageAnalysisAnalyzer()
         } else {
@@ -91,9 +95,9 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
                     it
                 )
             }
-
         }
     }
+
 
     /**
      * 初始化
@@ -380,6 +384,9 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
             CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED,
             cameraExecutor
         ) { result: MlKitAnalyzer.Result? ->
+            if (!analyzerEnable) {
+                return@MlKitAnalyzer
+            }
             if (detector is BarcodeScanner) {
                 val barcodeResults = result?.getValue(detector as BarcodeScanner)
                 if ((barcodeResults == null) ||
@@ -388,15 +395,20 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
                 ) {
                     return@MlKitAnalyzer
                 }
-                beepManager?.playBeepSoundAndVibrate()
-                setScanResultCallback(result)
+                scanResult(result)
             } else {
-                setScanResultCallback(result)
+                scanResult(result)
             }
         }
         (analyzer as MlKitAnalyzer).setTargetResolution(targetResolution())
     }
 
+    private fun scanResult(result: MlKitAnalyzer.Result?) {
+        beepManager?.playBeepSoundAndVibrate()
+        runOnUiThread {
+            setScanResultCallback(result)
+        }
+    }
 
     /**
      * 返回true时会自动初始化[.setContentView]，返回为false是需自己去初始化[.setContentView]

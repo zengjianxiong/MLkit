@@ -3,6 +3,7 @@ package com.zengjianxiong.sacn
 import android.content.Intent
 import android.os.Bundle
 import android.util.Size
+import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -28,9 +29,9 @@ class ScanActivity : BaseCameraScanActivity<List<Barcode>>() {
     }
 
     override fun setScanResultCallback(result: MlKitAnalyzer.Result?) {
-        val barcodeResults = result?.getValue(barcodeScanner)
         setAnalyzeImage(false)
-        overlayClick(barcodeResults!![0].displayValue)
+        val barcodeResults = result?.getValue(barcodeScanner)
+//            overlayClick(barcodeResults!![0].displayValue)
     }
 
     private fun overlayClick(it: String?) {
