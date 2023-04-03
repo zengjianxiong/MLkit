@@ -22,13 +22,15 @@ import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.interfaces.Detector
 import com.zengjianxiong.sacn.manager.AmbientLightManager
 import com.zengjianxiong.sacn.manager.BeepManager
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
 abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
 
-
+    private lateinit var cameraExecutor: ExecutorService
     open var beepManager: BeepManager? = null
     private var ambientLightManager: AmbientLightManager? = null
     private var flashlightView: View? = null
@@ -71,6 +73,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
         if (isContentView()) {
             setContentView(layoutId())
         }
+        cameraExecutor = Executors.newSingleThreadExecutor()
         initUI()
     }
 
@@ -84,7 +87,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
         } else {
             analyzer?.let {
                 cameraController.setImageAnalysisAnalyzer(
-                    ContextCompat.getMainExecutor(this),
+                    cameraExecutor,
                     it
                 )
             }
@@ -354,7 +357,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
     private fun bindCamera() {
         analyzer?.let {
             cameraController.setImageAnalysisAnalyzer(
-                ContextCompat.getMainExecutor(this),
+                cameraExecutor,
                 it
             )
         }
@@ -375,7 +378,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
         analyzer = MlKitAnalyzer(
             listOf(detector),
             CameraController.COORDINATE_SYSTEM_VIEW_REFERENCED,
-            ContextCompat.getMainExecutor(this)
+            cameraExecutor
         ) { result: MlKitAnalyzer.Result? ->
             if (detector is BarcodeScanner) {
                 val barcodeResults = result?.getValue(detector as BarcodeScanner)
@@ -433,6 +436,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        cameraExecutor.shutdown()
         detector.close()
         cameraController.unbind()
     }
