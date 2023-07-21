@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        data?.getStringExtra("barcode")?.let {
+        data?.getStringExtra("code_result")?.let {
             Log.d("ada", it)
             findViewById<TextView>(R.id.text).text = it
         }

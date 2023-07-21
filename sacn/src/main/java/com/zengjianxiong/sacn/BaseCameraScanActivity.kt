@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -23,8 +22,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.interfaces.Detector
 import com.zengjianxiong.sacn.manager.AmbientLightManager
 import com.zengjianxiong.sacn.manager.BeepManager
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+import java.util.concurrent.*
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -76,7 +74,7 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
         if (isContentView()) {
             setContentView(layoutId())
         }
-        cameraExecutor = Executors.newSingleThreadExecutor()
+        cameraExecutor = initCameraExecutor()
         initUI()
     }
 
@@ -443,6 +441,8 @@ abstract class BaseCameraScanActivity<T> : AppCompatActivity() {
     abstract fun initConfig()
 
     abstract fun initDetector(): Detector<T>
+
+    abstract fun initCameraExecutor(): ExecutorService
 
     abstract fun setScanResultCallback(result: MlKitAnalyzer.Result?)
 

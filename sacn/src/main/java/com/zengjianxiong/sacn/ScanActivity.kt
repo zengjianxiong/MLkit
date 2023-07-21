@@ -9,6 +9,7 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.interfaces.Detector
+import java.util.concurrent.*
 
 
 class ScanActivity : BaseCameraScanActivity<List<Barcode>>() {
@@ -31,7 +32,7 @@ class ScanActivity : BaseCameraScanActivity<List<Barcode>>() {
     override fun setScanResultCallback(result: MlKitAnalyzer.Result?) {
         setAnalyzeImage(false)
         val barcodeResults = result?.getValue(barcodeScanner)
-//            overlayClick(barcodeResults!![0].displayValue)
+        overlayClick(barcodeResults!![0].displayValue)
     }
 
     private fun overlayClick(it: String?) {
@@ -41,5 +42,13 @@ class ScanActivity : BaseCameraScanActivity<List<Barcode>>() {
         intent.putExtras(bundle)
         setResult(RESULT_OK, intent);
         finish()
+    }
+
+    override fun initCameraExecutor(): ExecutorService {
+        val queue = LinkedBlockingQueue<Runnable>(10)
+        return ThreadPoolExecutor(
+            5, 10, 1,
+            TimeUnit.MINUTES, queue, ThreadPoolExecutor.DiscardPolicy()
+        )
     }
 }
